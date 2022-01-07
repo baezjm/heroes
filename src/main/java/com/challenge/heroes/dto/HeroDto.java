@@ -1,15 +1,16 @@
 package com.challenge.heroes.dto;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
 
-@Getter
-@Setter
+import javax.validation.constraints.NotBlank;
+
+@Value
 @Builder
 public class HeroDto {
 
-    private Long id;
+    Long id;
 
-    private String name;
+    @NotBlank
+    String name;
 }
