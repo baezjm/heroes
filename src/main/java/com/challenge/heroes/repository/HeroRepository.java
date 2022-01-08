@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface HeroRepository extends JpaRepository<Hero, Long> {
-    List<Hero> findByNameContains(final String name);
+    List<Hero> findByNameContainsIgnoreCase(final String name);
 }

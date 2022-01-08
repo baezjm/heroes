@@ -65,6 +65,6 @@ public class HeroService {
         if (isNull(name) || name.isBlank()) {
             throw new IllegalArgumentException("name can not be empty");
         }
-        return heroRepository.findByNameContains(name).stream().map(heroMapper::toDto).collect(Collectors.toList());
+        return heroRepository.findByNameContainsIgnoreCase(name).stream().map(heroMapper::toDto).collect(Collectors.toList());
     }
 }
