@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
+@WithMockUser(username="test", password = "test", authorities = {"ADMIN", "USER"})
 class HeroControllerIntegrationTest {
 
     @Autowired
@@ -29,7 +29,6 @@ class HeroControllerIntegrationTest {
     private HeroRepository repository;
 
     @Test
-    @WithMockUser(username="user", password = "user", authorities = "USER")
     void test_get_by_id_one_is_ok() throws Exception {
 
         mockMvc.perform(get("/api/hero/{id}", 1))
@@ -38,7 +37,6 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username="user", password = "user", authorities = "USER")
     void test_get_by_id_three_is_not_found() throws Exception {
         mockMvc.perform(get("/api/hero/{id}", 3))
                 .andExpect(status().isNotFound());
@@ -54,6 +52,15 @@ class HeroControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{'id':3,'name':'spiderman'}"));
         assertThat(repository.findAll().size()).isEqualTo(previousSize + 1);
+    }
+
+    @Test
+    @WithMockUser(username="test", password = "test", authorities = "OTHER")
+    void test_create_a_hero_without_correct_authorities() throws Exception {
+        mockMvc.perform(post("/api/hero/")
+                        .contentType("application/json;charset=UTF-8")
+                        .content("{\"name\":\"spiderman\"}"))
+                .andExpect(status().isForbidden());
     }
 
     @Test
