@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,6 +28,7 @@ class HeroControllerIntegrationTest {
     private HeroRepository repository;
 
     @Test
+    @WithMockUser(username="user", password = "user", authorities = "USER")
     void test_get_by_id_one_is_ok() throws Exception {
 
         mockMvc.perform(get("/api/hero/{id}", 1))
@@ -35,12 +37,14 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username="user", password = "user", authorities = "USER")
     void test_get_by_id_three_is_not_found() throws Exception {
         mockMvc.perform(get("/api/hero/{id}", 3))
                 .andExpect(status().isNotFound());
     }
 
     @Test
+    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_create_a_hero() throws Exception {
         int previousSize = repository.findAll().size();
         mockMvc.perform(post("/api/hero/")
@@ -53,6 +57,7 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_create_a_hero_without_name() throws Exception {
         mockMvc.perform(post("/api/hero/")
                         .contentType("application/json;charset=UTF-8")
@@ -61,6 +66,7 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_update_a_hero() throws Exception {
         mockMvc.perform(put("/api/hero/{id}",1)
                         .contentType("application/json;charset=UTF-8")
@@ -73,6 +79,7 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_update_a_hero_without_name() throws Exception {
         mockMvc.perform(put("/api/hero/{id}",1)
                         .contentType("application/json;charset=UTF-8")
@@ -81,6 +88,7 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_update_a_hero_not_found() throws Exception {
         mockMvc.perform(put("/api/hero/{id}",4)
                         .contentType("application/json;charset=UTF-8")
