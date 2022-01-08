@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
 class HeroControllerIntegrationTest {
 
     @Autowired
@@ -44,7 +45,6 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_create_a_hero() throws Exception {
         int previousSize = repository.findAll().size();
         mockMvc.perform(post("/api/hero/")
@@ -57,7 +57,6 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_create_a_hero_without_name() throws Exception {
         mockMvc.perform(post("/api/hero/")
                         .contentType("application/json;charset=UTF-8")
@@ -66,7 +65,6 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_update_a_hero() throws Exception {
         mockMvc.perform(put("/api/hero/{id}",1)
                         .contentType("application/json;charset=UTF-8")
@@ -79,7 +77,6 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_update_a_hero_without_name() throws Exception {
         mockMvc.perform(put("/api/hero/{id}",1)
                         .contentType("application/json;charset=UTF-8")
@@ -88,7 +85,6 @@ class HeroControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username="admin", password = "admin", authorities = "ADMIN")
     void test_update_a_hero_not_found() throws Exception {
         mockMvc.perform(put("/api/hero/{id}",4)
                         .contentType("application/json;charset=UTF-8")
