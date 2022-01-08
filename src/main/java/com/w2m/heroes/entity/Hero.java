@@ -1,16 +1,15 @@
 package com.w2m.heroes.entity;
 
-import static javax.persistence.GenerationType.IDENTITY;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import lombok.*;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
