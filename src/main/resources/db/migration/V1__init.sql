@@ -30,8 +30,9 @@ insert into hero (name) values ('superman');
 INSERT INTO roles(name) VALUES('USER');
 INSERT INTO roles(name) VALUES('ADMIN');
 
-INSERT INTO users(id, username, email, password) values (1, 'admin', 'admin@admin.com', '$2a$10$mR4MU5esBbUd6JWuwWKTA.tRy.jo4d4XRkgnamcOJfw5pJ8Ao/RDS');
-INSERT INTO users(id, username, email, password) values (2, 'user', 'user@user.com', '$2a$10$mR4MU5esBbUd6JWuwWKTA.tRy.jo4d4XRkgnamcOJfw5pJ8Ao/RDS');
+INSERT INTO users(id, username, email, password) values (1, 'admin', 'admin@admin.com', '$2a$12$vKnFwdNZlrafCd.a4oxp6eTkJR9d6YoM8b6S1XgV7KgE7grdSyode');
+INSERT INTO users(id, username, email, password) values (2, 'user', 'user@user.com', '$2a$12$rOae7ZE612BUUzgeVtXcUOwm2fsvfwx5JxBHbFz6CoZ57n5cYkp7q');
 
+INSERT INTO user_roles(user_id,role_id) values (1,1);
 INSERT INTO user_roles(user_id,role_id) values (1,2);
 INSERT INTO user_roles(user_id,role_id) values (2,1);
