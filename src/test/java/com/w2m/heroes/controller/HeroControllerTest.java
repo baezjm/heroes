@@ -5,42 +5,40 @@ import com.w2m.heroes.exception.HeroNotFoundException;
 import com.w2m.heroes.service.HeroService;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 
+//No uso @WebMvcTest dado que por la configuración de seguridad necesita algunos servicios que no se inyectan.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser(username="test", password = "test", authorities = {"ADMIN", "USER"})
-@MockBean(HeroService.class)
 class HeroControllerTest {
 
     private static final String BASE_PATH = "/api/hero";
     private static final long HERO_ID = 1L;
     public static final String NAME = "name";
 
-    private final HeroService heroService;
+    @MockBean
+    private HeroService heroService;
 
     @Autowired
-    public HeroControllerTest(
-            final WebApplicationContext applicationContext,
-            final HeroService heroService) {
-        this.heroService = heroService;
-        RestAssuredMockMvc.webAppContextSetup(applicationContext);
+    private MockMvc mvc;
+
+    @BeforeEach
+    void setUp() {
+        RestAssuredMockMvc.mockMvc(mvc);
     }
 
     @Test
