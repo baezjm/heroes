@@ -19,7 +19,7 @@ Este mantenimiento debe permitir:
 
 * Lenguaje: java versión 11
 * Framework: spring boot.
-* Librerias: mockito para los tests, jacoco para la cobertura, springdoc-openapi-ui para documentar los servicios rests, lombok.
+* Librerias: mockito para los tests, jacoco para la cobertura, springdoc-openapi-ui para documentar los servicios rests, lombok, flyway
 * Docker
 
 
