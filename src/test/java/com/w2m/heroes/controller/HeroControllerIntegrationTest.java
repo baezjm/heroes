@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@WithMockUser(username="test", password = "test", authorities = {"ADMIN", "USER"})
 class HeroControllerIntegrationTest {
 
     @Autowired
@@ -50,6 +52,15 @@ class HeroControllerIntegrationTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{'id':3,'name':'spiderman'}"));
         assertThat(repository.findAll().size()).isEqualTo(previousSize + 1);
+    }
+
+    @Test
+    @WithMockUser(username="test", password = "test", authorities = "OTHER")
+    void test_create_a_hero_without_correct_authorities() throws Exception {
+        mockMvc.perform(post("/api/hero/")
+                        .contentType("application/json;charset=UTF-8")
+                        .content("{\"name\":\"spiderman\"}"))
+                .andExpect(status().isForbidden());
     }
 
     @Test

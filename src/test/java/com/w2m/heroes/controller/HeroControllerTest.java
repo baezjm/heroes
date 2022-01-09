@@ -8,9 +8,13 @@ import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -19,9 +23,10 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = {HeroController.class})
-@MockBean({HeroService.class})
+@SpringBootTest
+@AutoConfigureMockMvc
+@WithMockUser(username="test", password = "test", authorities = {"ADMIN", "USER"})
+@MockBean(HeroService.class)
 class HeroControllerTest {
 
     private static final String BASE_PATH = "/api/hero";
