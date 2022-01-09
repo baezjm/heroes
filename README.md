@@ -62,6 +62,8 @@ docker run -p 8080:8080 w2m/heroes
 
 7. **Invocación a servicios**
 
+[Collection de postman con tests] (https://go.postman.co/workspace/My-Workspace~aec8abf7-c487-43f7-8761-05dea536ee94/collection/4233576-4f991fd8-bf1e-49dc-9311-5868510c6dbd)
+
 * Login
 
 ```console
