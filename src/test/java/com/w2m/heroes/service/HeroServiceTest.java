@@ -5,7 +5,13 @@ import com.w2m.heroes.entity.Hero;
 import com.w2m.heroes.exception.HeroNotFoundException;
 import com.w2m.heroes.mapper.HeroMapper;
 import com.w2m.heroes.repository.HeroRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,20 +28,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.argThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@MockBean({HeroRepository.class})
-@SpyBean({HeroMapper.class})
+@ExtendWith(MockitoExtension.class)
 class HeroServiceTest {
 
-    private final HeroService service;
-    private final HeroRepository repository;
-    private final HeroMapper heroMapper;
+    private HeroService service;
 
-    @Autowired
-    public HeroServiceTest(HeroService service, HeroRepository repository, HeroMapper heroMapper) {
-        this.service = service;
-        this.repository = repository;
-        this.heroMapper = heroMapper;
+    @Mock
+    private HeroRepository repository;
+
+    @BeforeEach
+    void setUp() {
+        this.service = new HeroService(Mappers.getMapper(HeroMapper.class), repository);
     }
 
     @Test
