@@ -3,6 +3,7 @@ package com.w2m.heroes.controller;
 import com.w2m.heroes.annotations.CustomTimed;
 import com.w2m.heroes.dto.HeroDto;
 import com.w2m.heroes.service.HeroService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/hero")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class HeroController {
 
     private final HeroService heroService;
