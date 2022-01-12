@@ -19,7 +19,7 @@ public class CustomTimedAdvice {
         Object object = point.proceed();
         long end = System.currentTimeMillis();
 
-        log.info("Class Name: "+ point.getSignature().getDeclaringTypeName() +". Method Name: "+ point.getSignature().getName() + ". Time taken for Execution is : " + (end-start) +"ms");
+        log.info(String.format("Class Name: %s .Method Name: %s. Time taken for Execution is : %s ms", point.getSignature().getDeclaringTypeName(), point.getSignature().getName(), (end-start)));
         return object;
     }
 }

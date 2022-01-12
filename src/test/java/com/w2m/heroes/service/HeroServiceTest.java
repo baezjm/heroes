@@ -40,7 +40,7 @@ class HeroServiceTest {
     void test_creation_of_a_hero() {
         given(repository.save(any(Hero.class))).willReturn(Hero.builder().id(1L).name("name").build());
 
-        final HeroDto result = service.create(HeroDto.builder().name("name").build());
+        final var result = service.create(HeroDto.builder().name("name").build());
 
         assertThat(result.getId()).isEqualTo(1L);
         assertThat(result.getName()).isEqualTo("name");
@@ -49,7 +49,7 @@ class HeroServiceTest {
     @Test
     public void test_update_when_exist_hero() {
 
-        final Hero hero = Hero.builder().id(1L).name("hero").build();
+        final var hero = Hero.builder().id(1L).name("hero").build();
 
         given(repository.findById(1L)).willReturn(Optional.of(hero));
         given(repository.save(argThat((Hero h) -> "hero2".equals(h.getName()))))
@@ -74,10 +74,10 @@ class HeroServiceTest {
     @Test
     public void test_delete_when_exist_hero() {
 
-        Hero hero1 = Hero.builder().id(1L).name("hero").build();
+        final var hero1 = Hero.builder().id(1L).name("hero").build();
         given(repository.findById(1L)).willReturn(Optional.of(hero1));
 
-        HeroDto heroDeleted = service.delete(1L);
+        var heroDeleted = service.delete(1L);
 
         assertThat(heroDeleted).isNotNull();
         assertThat(heroDeleted.getId()).isEqualTo(hero1.getId());
@@ -93,7 +93,7 @@ class HeroServiceTest {
     @Test
     public void test_find_hero_byId_exist() {
 
-        Hero hero1 = Hero.builder().id(1L).name("hero").build();
+        final var hero1 = Hero.builder().id(1L).name("hero").build();
         given(repository.findById(1L)).willReturn(Optional.of(hero1));
 
         HeroDto result = service.findById(1L);
@@ -118,7 +118,7 @@ class HeroServiceTest {
 
         given(repository.findByNameContainsIgnoreCase("hero")).willReturn(heroes);
 
-        final List<HeroDto> results = service.findByName("hero");
+        final var results = service.findByName("hero");
         assertThat(results).isNotNull();
         assertThat(results.size()).isEqualTo(2);
     }
@@ -135,13 +135,13 @@ class HeroServiceTest {
 
     @Test
     public void test_findAll() {
-        final List<Hero> heroes = Arrays.asList(
+        final var heroes = List.of(
                 Hero.builder().id(1L).name("myHero").build(),
                 Hero.builder().id(2L).name("myHero").build());
 
         given(repository.findAll()).willReturn(heroes);
 
-        List<HeroDto> all = service.findAll();
+        var all = service.findAll();
         assertThat(all).isNotNull();
         assertThat(all.size()).isEqualTo(2);
     }
