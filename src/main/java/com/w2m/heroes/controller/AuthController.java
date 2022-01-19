@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthController {
 
+    public static final String BEARER = "Bearer";
     private final AuthenticationManager authenticationManager;
 
     private final JwtUtils jwtUtils;
@@ -32,14 +33,14 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
+        final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        final String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
+        final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        final List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
@@ -47,7 +48,7 @@ public class AuthController {
                 .token(jwt)
                 .id(userDetails.getId())
                 .username(userDetails.getUsername())
-                .type("Bearer")
+                .type(BEARER)
                 .email(userDetails.getEmail())
                 .roles(roles).build());
     }
